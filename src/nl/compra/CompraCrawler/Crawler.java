@@ -90,15 +90,6 @@ public class Crawler {
 			
 			reader.close ();
 			
-			Log ("I've collected all lines I believe contain links and will now extract them.");
-			
-			for (Map.Entry<String, List<Integer>> detection : detections.entrySet())
-			{
-				
-				System.out.println (detection.getKey ().substring(detection.getValue ().get (0), detection.getValue ().get (1)) + "\n\n");
-				
-			}
-			
 			Log ("My work is done here, thank you for playing with me :)");
 			
 			return collection;
