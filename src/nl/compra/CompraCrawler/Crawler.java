@@ -81,9 +81,8 @@ public class Crawler {
 				int cursor = 0;
 				
 				/*
-				 * Loop through the lines one by one and search for any word starting with http.
-				 * From there one try and find when this word ends, then save it to the collection variable.
-				 * Easy peasy.
+				 * Loop through every character of a line and search for href=" and then try to extract everything after the next "
+				 * after that, we just keep on searching on that same line until it ends.
 				 */
 				
 			}
