@@ -78,12 +78,38 @@ public class Crawler {
 			while ((inputLine = reader.readLine ()) != null)
 			{
 				
-				int cursor = 0;
-				
 				/*
 				 * Loop through every character of a line and search for href=" and then try to extract everything after the next "
 				 * after that, we just keep on searching on that same line until it ends.
 				 */
+				
+				if (inputLine.contains("href="))
+				{
+					
+					// Remove all tabs
+					inputLine = inputLine.replace ("\t", "");
+					
+					int lineCursor = 0;
+					while (lineCursor < inputLine.length () - 6)
+					{
+						
+						
+						
+						if (inputLine.substring(lineCursor, (lineCursor + 3)) == "href") // THIS DOESN'T TRIGGER, TRY DEBUG MODE :)
+						{
+							
+							Log (inputLine.substring(lineCursor, lineCursor + 3));
+							
+						}
+						
+						lineCursor++;
+						
+					}
+					
+					// Debug purpose
+//					Log (inputLine);
+					
+				}
 				
 			}
 			
