@@ -75,7 +75,7 @@ public class Crawler {
 			
 			
 			
-			while ((inputLine = reader.readLine ()) != null)
+			while ((inputLine = reader.readLine ().toLowerCase()) != null)
 			{
 				
 				/*
