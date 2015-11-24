@@ -95,7 +95,9 @@ public class Crawler {
 						
 						
 						
-						if (inputLine.substring(lineCursor, (lineCursor + 3)) == "href") // THIS DOESN'T TRIGGER, TRY DEBUG MODE :)
+						Log (whatIsThisEven);
+						
+						if (inputLine.substring (lineCursor, (lineCursor + 4)).equals("href")) // THIS DOESN'T TRIGGER, TRY DEBUG MODE :)
 						{
 							
 							Log (inputLine.substring(lineCursor, lineCursor + 3));
