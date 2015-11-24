@@ -93,14 +93,15 @@ public class Crawler {
 					while (lineCursor < inputLine.length () - 6)
 					{
 						
-						
-						
-						Log (whatIsThisEven);
-						
-						if (inputLine.substring (lineCursor, (lineCursor + 4)).equals("href")) // THIS DOESN'T TRIGGER, TRY DEBUG MODE :)
+						if (inputLine.substring (lineCursor, (lineCursor + 4)).equals("href"))
 						{
 							
-							Log (inputLine.substring(lineCursor, lineCursor + 3));
+							Log (inputLine.substring (lineCursor, lineCursor + 4));
+							// At this point we are sure that we are currently right at the HREF, right BEFORE the H to be precise.
+							
+							
+							
+							
 							
 						}
 						
