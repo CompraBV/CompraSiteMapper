@@ -31,6 +31,13 @@ public class Crawler {
 		
 	}
 	
+	private void Log (char message)
+	{
+		
+		System.out.println ("[" + NAME + "]: " + message);
+		
+	}
+	
 	private void Log (String message)
 	{
 		
@@ -75,8 +82,10 @@ public class Crawler {
 			
 			
 			
-			while ((inputLine = reader.readLine ().toLowerCase()) != null)
+			while ((inputLine = reader.readLine ()) != null)
 			{
+				
+				inputLine = inputLine.toLowerCase ();
 				
 				/*
 				 * Loop through every character of a line and search for href=" and then try to extract everything after the next "
@@ -99,9 +108,31 @@ public class Crawler {
 							Log (inputLine.substring (lineCursor, lineCursor + 4));
 							// At this point we are sure that we are currently right at the HREF, right BEFORE the H to be precise.
 							
+							//Advance beyond the "href"
+							lineCursor += 4;
 							
+							// Advance towards the = character
+							while (inputLine.charAt (lineCursor) != '=')
+								lineCursor++;
 							
+							// Advance towards the " character
+							while (inputLine.charAt (lineCursor) != '"')
+								lineCursor++;
 							
+							// Advance beyond the " character
+							lineCursor++;
+							
+							int beginningOfHREFPosition = lineCursor;
+							
+							while (inputLine.charAt (lineCursor) != '"')
+								lineCursor++;
+							
+							String hrefLink = inputLine.substring(beginningOfHREFPosition, lineCursor);
+							
+							collection.add (hrefLink);
+							
+							// Create a safe distance
+							lineCursor += 2;
 							
 						}
 						
