@@ -209,7 +209,6 @@ public class Crawler {
 			
 		} catch (IOException e) {
 			
-			// TODO Auto-generated catch block
 			Log ("Could not crawl target.");
 			e.printStackTrace();
 			
