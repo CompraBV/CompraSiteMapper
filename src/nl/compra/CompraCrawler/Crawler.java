@@ -35,13 +35,6 @@ public class Crawler {
 		
 	}
 	
-	private void Log (char message)
-	{
-		
-		System.out.println ("[" + Brain.NAME + "]: " + message);
-		
-	}
-	
 	private void Log (String message)
 	{
 		
