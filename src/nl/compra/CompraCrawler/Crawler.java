@@ -115,6 +115,8 @@ public class Crawler {
 							while (inputLine.charAt (lineCursor) != '=')
 								lineCursor++;
 							
+							// lekker coden met een fles op me hoofd hue hue hue  hue hue
+							
 							// Advance towards the " character
 							while (inputLine.charAt (lineCursor) != '"')
 								lineCursor++;
