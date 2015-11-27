@@ -9,8 +9,6 @@ import nl.compra.CompraCrawler.Brain;
 
 public class Program {
 
-	public static Brain brain;
-	
 	public Program ()
 	{
 		
@@ -21,15 +19,14 @@ public class Program {
 		try {
 		
 //			String requestedTarget = reader.readLine ();
-			brain = new Brain ();
-			brain.SetTarget ("https://www.compra.nl");
-			brain.Execute ();
+			Brain.SetTarget ("https://www.compra.nl/");
+			Brain.Execute ();
 
-			brain.LogCollection ();
+			Brain.LogCollection ();
 			
-			WebSitemapGenerator wsg = new WebSitemapGenerator("https://www.compra.nl/", new File ("sitemaps"));
+			WebSitemapGenerator wsg = new WebSitemapGenerator(Brain.GetTarget (), new File ("sitemaps"));
 			
-			for (String collected : brain.getOverCollection())
+			for (String collected : Brain.getOverCollection())
 				wsg.addUrl (collected);
 			
 			wsg.write();

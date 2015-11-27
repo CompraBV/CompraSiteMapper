@@ -7,22 +7,16 @@ public class Brain {
 	
 	public static final String NAME = "Bob's evil twin";
 	
-	private List<Crawler> 	crawlers;
-	private List<String> 	overCollection;
-	private String 			target;
+	private static List<Crawler> 	crawlers 		= new ArrayList<Crawler> ();
+	private static List<String> 	overCollection 	= new ArrayList<String> ();;
+	private static String 			target;
 
-	public void SetTarget (String target) 		{ this.target = target; }
-	public List<String> getOverCollection () 	{ return overCollection; }
+	public static List<String> getOverCollection () 	{ return overCollection; }
+	public static String GetTarget ()					{ return target; }
 	
-	public Brain ()
-	{
-		
-		overCollection 	= new ArrayList<String> ();
-		crawlers		= new ArrayList<Crawler> ();
-		
-	}
+	public static void SetTarget (String target) 		{ Brain.target = target; }
 	
-	private List<String> SpawnCrawler (String target)
+	private static List<String> SpawnCrawler (String target)
 	{
 		
 		Crawler crawler = new Crawler (target);
@@ -32,7 +26,7 @@ public class Brain {
 		
 	}
 	
-	public void Execute ()
+	public static void Execute ()
 	{
 		
 		// Explore first given page
@@ -40,14 +34,14 @@ public class Brain {
 		
 	}
 	
-	private void Log (String message)
+	private static void Log (String message)
 	{
 		
 		System.out.println ("[BRAIN]: " + message);
 		
 	}
 	
-	public void LogCollection ()
+	public static void LogCollection ()
 	{
 		
 		for (String collected : overCollection)
@@ -59,7 +53,7 @@ public class Brain {
 		
 	}
 	
-	public void ReceiveCollection (List<String> collection) {
+	public static void ReceiveCollection (List<String> collection) {
 		
 		for (String collected : collection)
 		{
