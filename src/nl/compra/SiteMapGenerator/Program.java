@@ -1,11 +1,48 @@
 package nl.compra.SiteMapGenerator;
 
+import java.io.File;
+import java.io.IOException;
+
+import com.redfin.sitemapgenerator.WebSitemapGenerator;
+
+import nl.compra.CompraCrawler.Brain;
+
 public class Program {
 
+	public static Brain brain;
+	
 	public Program ()
 	{
 		
-		System.out.println ("This will eventually be a SiteMapGenerator.");
+		// Ge-Ge-Ge-Ge-ne-rate
+		System.out.println ("Please enter a target for the webcrawler: ");
+//		BufferedReader reader = new BufferedReader (new InputStreamReader (System.in));
+		
+		try {
+		
+//			String requestedTarget = reader.readLine ();
+			brain = new Brain ();
+			brain.SetTarget ("https://www.compra.nl");
+			brain.Execute ();
+
+			brain.LogCollection ();
+			
+			WebSitemapGenerator wsg = new WebSitemapGenerator("https://www.compra.nl/", new File ("sitemaps"));
+			
+			for (String collected : brain.getOverCollection())
+				wsg.addUrl (collected);
+			
+			wsg.write();
+			
+		} catch (IOException e) {
+		
+			System.out.println ("Couldn't read requested URL by user.");
+			e.printStackTrace();
+			
+		}
+		
+		System.out.println ("CRAWLER HAS BEEN TERMINATED");
+		
 		
 	}
 	

@@ -17,11 +17,12 @@ import java.util.Iterator;
 public class Crawler {
 
 	public String target;
+	public Brain brainReference;
 	public static final String[] ILLEGAL_CONTAININGS = 
 	{
 		 ".css", ".js", ".jpg", ".jpeg", ".png", ".bmp", ".gif", ".svg", ".txt", ".ico", 
 		 ".zip", ".rar", ".tar.gz", ".tar", ".mp3", ".mp4", ".avi", ".wmv", ".sql", ".psd",
-		 "mailto:", "tel:"
+		 "mailto:", "tel:", " "
 	 };
 	
 	private URLConnection 		connection;
@@ -35,7 +36,6 @@ public class Crawler {
 		collection = new ArrayList<String> ();
 		
 		ConnectToTarget (target);
-		Crawl ();
 		
 	}
 	
@@ -78,7 +78,7 @@ public class Crawler {
 	{
 		
 		Iterator<String> collectionIterator = collection.iterator ();
-		while (collectionIterator.hasNext ())
+		collectionLoop: while (collectionIterator.hasNext ())
 		{
 			
 			String collectionIt = collectionIterator.next ();
@@ -86,32 +86,38 @@ public class Crawler {
 			for (String illegalContaining : ILLEGAL_CONTAININGS)
 			{
 				
+				// TODO Improve the way the crawler checks if this is equal
+				if (collectionIt.equals("") || collectionIt.equals (" ") || collectionIt.equals ("#") || collectionIt.equals ("/"))
+				{
+					
+					collectionIterator.remove ();
+					continue collectionLoop;
+					
+				}
+				
 				// Check if the link contains some illegal wares
 				if (collectionIt.contains((illegalContaining)))
 				{
 					
 					Log ("Removing this entry: " + collectionIt);
 					collectionIterator.remove();
+					continue collectionLoop;
 					
 				}
-//				else if (collectionIt.contains ("http://") || collectionIt.contains ("https://")) // Check if the link doesn't go outside the requested domain
-//				{
-//					
-//					if (collectionIt.contains (target))
-//					{
-//						
-//						Log ("This domain goes outside the requested one, removing: " + collectionIt);
-//						collectionIterator.remove ();
-//						
-//					} 
-//					else
-//					{
-//						
-//						Log ("This domain is allowed: " + collectionIt);
-//						
-//					}
-//					
-//				}
+				
+				if (collectionIt.contains ("http://") || collectionIt.contains ("https://")) // Check if the link doesn't go outside the requested domain
+				{
+					
+					if ( ! collectionIt.contains (target))
+					{
+						
+						Log ("This domain goes outside the requested one (" + target + "), removing: " + collectionIt);
+						collectionIterator.remove ();
+						continue collectionLoop;
+						
+					} 
+					
+				}
 				
 			}
 			
@@ -181,18 +187,11 @@ public class Crawler {
 								lineCursor++;
 							
 							String hrefLink = inputLine.substring(beginningOfHrefPosition, lineCursor);
+						
+							collection.add (hrefLink);
 							
-							// These aren't real links! >:(
-							if ( ! hrefLink.equals (" ") || ! hrefLink.equals(("/")))
-							{
-						
-								collection.add (hrefLink);
-								
-								// Create a safe distance
-								lineCursor++;						
-						
-							}
-					
+							// Create a safe distance
+							lineCursor++;						
 							
 						}
 						
@@ -213,6 +212,7 @@ public class Crawler {
 			
 			Log ("My work is done here, thank you for playing with me :)");
 			
+			return collection;
 			
 		} catch (IOException e) {
 			

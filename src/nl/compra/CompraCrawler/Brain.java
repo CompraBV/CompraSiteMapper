@@ -22,10 +22,12 @@ public class Brain {
 		
 	}
 	
-	private void SpawnCrawler (String target)
+	private List<String> SpawnCrawler (String target)
 	{
 		
-		crawlers.add (new Crawler (target));
+		Crawler crawler = new Crawler (target);
+		crawlers.add (crawler);
+		return crawler.Crawl ();
 		
 		
 	}
@@ -34,8 +36,43 @@ public class Brain {
 	{
 		
 		// Explore first given page
-		SpawnCrawler (target);
-		
-		
+		ReceiveCollection (SpawnCrawler (target));
 		
 	}
+	
+	private void Log (String message)
+	{
+		
+		System.out.println ("[BRAIN]: " + message);
+		
+	}
+	
+	public void LogCollection ()
+	{
+		
+		for (String collected : overCollection)
+		{
+			
+			Log (collected);
+			
+		}
+		
+	}
+	
+	public void ReceiveCollection (List<String> collection) {
+		
+		for (String collected : collection)
+		{
+			
+			if ( ! overCollection.contains (collected))
+			{
+				
+				overCollection.add (target + "/" + collected);
+				
+			}
+			
+		}
+		
+	}
+	
+}
