@@ -11,42 +11,52 @@ import java.util.regex.Pattern;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 
 
 public class Crawler {
 
-	private static final String NAME = "No Name";
-	private static final String COMMANDS = "I'm a webcrawler which crawls an URL looking for URL's leading to other views within this URL to generate a sitemap.";
+	public String target;
+	public static final String[] ILLEGAL_CONTAININGS = 
+	{
+		 ".css", ".js", ".jpg", ".jpeg", ".png", ".bmp", ".gif", ".svg", ".txt", ".ico", 
+		 ".zip", ".rar", ".tar.gz", ".tar", ".mp3", ".mp4", ".avi", ".wmv", ".sql", ".psd",
+		 "mailto:", "tel:"
+	 };
+	
 	private URLConnection 		connection;
 	private List<String> 		collection;
 	
 	public List<String> getCollection () { return collection; }
-	
-	public Crawler ()
+
+	public Crawler (String target)
 	{
 		
 		collection = new ArrayList<String> ();
 		
-		System.out.println ("Hello! My name is " + NAME + " and I'm a happy webcrawler.\nHere is what I do:\n" + COMMANDS);
+		ConnectToTarget (target);
+		Crawl ();
 		
 	}
 	
 	private void Log (char message)
 	{
 		
-		System.out.println ("[" + NAME + "]: " + message);
+		System.out.println ("[" + Brain.NAME + "]: " + message);
 		
 	}
 	
 	private void Log (String message)
 	{
 		
-		System.out.println ("[" + NAME + "]: " + message);
+		System.out.println ("[" + Brain.NAME + "]: " + message);
 		
 	}
 	
 	public void ConnectToTarget (String target)
 	{
+		
+		this.target = target;
 		
 		try {
 
@@ -64,14 +74,57 @@ public class Crawler {
 		
 	}
 	
+	public void Filter ()
+	{
+		
+		Iterator<String> collectionIterator = collection.iterator ();
+		while (collectionIterator.hasNext ())
+		{
+			
+			String collectionIt = collectionIterator.next ();
+			
+			for (String illegalContaining : ILLEGAL_CONTAININGS)
+			{
+				
+				// Check if the link contains some illegal wares
+				if (collectionIt.contains((illegalContaining)))
+				{
+					
+					Log ("Removing this entry: " + collectionIt);
+					collectionIterator.remove();
+					
+				}
+//				else if (collectionIt.contains ("http://") || collectionIt.contains ("https://")) // Check if the link doesn't go outside the requested domain
+//				{
+//					
+//					if (collectionIt.contains (target))
+//					{
+//						
+//						Log ("This domain goes outside the requested one, removing: " + collectionIt);
+//						collectionIterator.remove ();
+//						
+//					} 
+//					else
+//					{
+//						
+//						Log ("This domain is allowed: " + collectionIt);
+//						
+//					}
+//					
+//				}
+				
+			}
+			
+		}
+		
+	}
+	
 	public List<String> Crawl ()
 	{
 		
 		Log ("I will now attempt to crawl the requested target.");
 		
 		BufferedReader reader;
-		
-		Map<String, List<Integer>> detections = new HashMap<String, List<Integer>> ();
 		
 		try {
 
@@ -105,17 +158,15 @@ public class Crawler {
 						if (inputLine.substring (lineCursor, (lineCursor + 4)).equals("href"))
 						{
 							
-							Log (inputLine.substring (lineCursor, lineCursor + 4));
 							// At this point we are sure that we are currently right at the HREF, right BEFORE the H to be precise.
-							
-							//Advance beyond the "href"
+							// Advance beyond the "href"
 							lineCursor += 4;
 							
 							// Advance towards the = character
 							while (inputLine.charAt (lineCursor) != '=')
 								lineCursor++;
 							
-							// lekker coden met een fles op me hoofd hue hue hue  hue hue
+							// lekker coden met een fles op me hoofd hue hue hue hue hue
 							
 							// Advance towards the " character
 							while (inputLine.charAt (lineCursor) != '"')
@@ -124,17 +175,24 @@ public class Crawler {
 							// Advance beyond the " character
 							lineCursor++;
 							
-							int beginningOfHREFPosition = lineCursor;
+							int beginningOfHrefPosition = lineCursor;
 							
 							while (inputLine.charAt (lineCursor) != '"')
 								lineCursor++;
 							
-							String hrefLink = inputLine.substring(beginningOfHREFPosition, lineCursor);
+							String hrefLink = inputLine.substring(beginningOfHrefPosition, lineCursor);
 							
-							collection.add (hrefLink);
-							
-							// Create a safe distance
-							lineCursor += 2;
+							// These aren't real links! >:(
+							if ( ! hrefLink.equals (" ") || ! hrefLink.equals(("/")))
+							{
+						
+								collection.add (hrefLink);
+								
+								// Create a safe distance
+								lineCursor++;						
+						
+							}
+					
 							
 						}
 						
@@ -142,18 +200,19 @@ public class Crawler {
 						
 					}
 					
-					// Debug purpose
-//					Log (inputLine);
-					
 				}
 				
 			}
 			
 			reader.close ();
+						
+			// State success
+			Log ("I have crawled the requested page and have collected several URLs, I will now filter out the ones that aren't desirable.");
+			
+			Filter ();
 			
 			Log ("My work is done here, thank you for playing with me :)");
 			
-			return collection;
 			
 		} catch (IOException e) {
 			

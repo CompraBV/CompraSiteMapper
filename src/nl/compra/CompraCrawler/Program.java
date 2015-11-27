@@ -6,20 +6,21 @@ import java.io.InputStreamReader;
 
 public class Program {
 
+	public static Brain brain;
+	
 	public Program ()
 	{
 		
-		System.out.println ("Loading crawler...");
-		Crawler crawler = new Crawler ();
 		System.out.println ("Please enter a target for the webcrawler: ");
-		BufferedReader reader = new BufferedReader (new InputStreamReader (System.in));
+//		BufferedReader reader = new BufferedReader (new InputStreamReader (System.in));
 		
 //		try {
 		
 //			String requestedTarget = reader.readLine ();
 //			crawler.ConnectToTarget (requestedTarget);
-			crawler.ConnectToTarget ("https://compra.nl");
-			crawler.Crawl ();
+			brain = new Brain ();
+			brain.SetTarget ("https://compra.nl");
+			brain.Execute ();
 			
 //		} catch (IOException e) {
 //		
