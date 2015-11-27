@@ -75,7 +75,12 @@ public class Crawler {
 			for (String illegalContaining : ILLEGAL_CONTAININGS)
 			{
 				
-				// TODO Improve the way the crawler checks if this is equal
+				/*
+				 *  TODO Improve the way the crawler checks if these conditions are true in a way that we may easily add new ones
+				 *  and manage the existing ones from a more accessible point in our code base like I've done with the `ILLEGAL_CONTAININGS` constant.
+				 *  Really all there is to it is creating another constant called something like `ILLEGAL_LITERALS` and then loop through it
+				 *  to see if any of it matches `collectionIt`
+				 */
 				if (collectionIt.equals("") || collectionIt.equals (" ") || collectionIt.equals ("#") || collectionIt.equals ("/"))
 				{
 					
