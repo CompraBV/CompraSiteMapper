@@ -32,6 +32,18 @@ public class Brain {
 		// Explore first given page
 		ReceiveCollection (SpawnCrawler (target));
 		
+		if ( ! overCollection.isEmpty ())
+		{
+		
+			for (String collected : overCollection)
+			{
+				
+				SpawnCrawler (collected);
+				
+			}
+		
+		}
+		
 	}
 	
 	private static void Log (String message)
@@ -61,7 +73,8 @@ public class Brain {
 			if ( ! overCollection.contains (collected))
 			{
 				
-				overCollection.add (target + "/" + collected);
+				if ( ! collected.equals(target + "/"))
+					overCollection.add (target + "/" + collected);
 				
 			}
 			

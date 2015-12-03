@@ -3,6 +3,7 @@ package nl.compra.CompraCrawler;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
@@ -20,7 +21,8 @@ public class Crawler {
 		 "mailto:", "tel:", " "
 	 };
 	
-	private URLConnection 		connection;
+	private HttpURLConnection 	connection;
+	private int					httpResponseCode;
 	private List<String> 		collection;
 	
 	public List<String> getCollection () { return collection; }
@@ -28,6 +30,8 @@ public class Crawler {
 	public Crawler (String target)
 	{
 		
+		Log ("Going to explore the target: " + target);
+
 		collection = new ArrayList<String> ();
 		
 		ConnectToTarget (target);
@@ -49,7 +53,9 @@ public class Crawler {
 		try {
 
 			URL url = new URL (target);	
-			connection = url.openConnection();
+			connection = (HttpURLConnection) url.openConnection();
+			
+			httpResponseCode = connection.getResponseCode();
 			
 			Log ("I've successfully connected to the target.");
 		
@@ -121,6 +127,14 @@ public class Crawler {
 	public List<String> Crawl ()
 	{
 		
+		if (httpResponseCode != 200) // This means the page does not have the expected content.
+		{
+			
+			Log ("The response code from the requested target remained a HTTP Response code other than 200.");
+			return collection;
+			
+		}
+		
 		Log ("I will now attempt to crawl the requested target.");
 		
 		BufferedReader reader;
@@ -142,6 +156,9 @@ public class Crawler {
 				/*
 				 * Loop through every character of a line and search for href=" and then try to extract everything after the next "
 				 * after that, we just keep on searching on that same line until it ends.
+				 * 
+				 * We should however also mind single quotes (').
+				 * You never know with all these people writing HTML and stuffles.
 				 */
 				
 				if (inputLine.contains("href="))
@@ -157,6 +174,8 @@ public class Crawler {
 						if (inputLine.substring (lineCursor, (lineCursor + 4)).equals("href"))
 						{
 							
+							boolean singleQuotes = false;
+							
 							// At this point we are sure that we are currently right at the HREF, right BEFORE the H to be precise.
 							// Advance beyond the "href"
 							lineCursor += 4;
@@ -168,18 +187,35 @@ public class Crawler {
 							// lekker coden met een fles op me hoofd hue hue hue hue hue
 							
 							// Advance towards the " character
-							while (inputLine.charAt (lineCursor) != '"')
-								lineCursor++;
+							while (inputLine.charAt (lineCursor) != '"' || inputLine.charAt (lineCursor) != 39)
+							{
+								
+								if (inputLine.charAt (lineCursor) == 39)
+								{
+									
+									singleQuotes = true;
+									Log ("Detected some silly boy using single quotes, tisk tisk tisk.");
+									
+								}
+								
+								if (lineCursor < inputLine.length () - 1) // HERE BE BUGS
+									lineCursor++;
+								
+							}
 							
-							// Advance beyond the " character
+							// Advance beyond the " or ' character
 							lineCursor++;
 							
 							int beginningOfHrefPosition = lineCursor;
 							
-							while (inputLine.charAt (lineCursor) != '"')
-								lineCursor++;
+							if (singleQuotes)
+								while (inputLine.charAt (lineCursor) != 39)
+									lineCursor++;
+							else
+								while (inputLine.charAt (lineCursor) != '"')
+									lineCursor++;
 							
-							String hrefLink = inputLine.substring(beginningOfHrefPosition, lineCursor);
+							String hrefLink = inputLine.substring (beginningOfHrefPosition, lineCursor);
 						
 							collection.add (hrefLink);
 							

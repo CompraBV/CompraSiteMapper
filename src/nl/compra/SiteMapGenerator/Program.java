@@ -19,7 +19,7 @@ public class Program {
 		try {
 		
 //			String requestedTarget = reader.readLine ();
-			Brain.SetTarget ("https://www.compra.nl/");
+			Brain.SetTarget ("https://www.compra.nl");
 			Brain.Execute ();
 
 			Brain.LogCollection ();
