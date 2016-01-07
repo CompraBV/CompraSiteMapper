@@ -190,7 +190,7 @@ public class Crawler {
 							while (inputLine.charAt (lineCursor) != '"' || inputLine.charAt (lineCursor) != 39)
 							{
 								
-								if (inputLine.charAt (lineCursor) == 39)
+								if (inputLine.charAt (lineCursor) == 39) // 39 is UNICODE for a single quote (')
 								{
 									
 									singleQuotes = true;
