@@ -170,7 +170,7 @@ public class Crawler {
 					inputLine = inputLine.replace ("\t", "");
 					
 					int lineCursor = 0;
-					while (lineCursor < inputLine.length () - 6)
+					while (lineCursor < inputLine.length () - 6) // this "- 6" works miracles
 					{
 						
 						if (inputLine.substring (lineCursor, (lineCursor + 4)).equals("href"))
@@ -188,22 +188,32 @@ public class Crawler {
 							
 							// lekker coden met een fles op me hoofd hue hue hue hue hue
 							
-							// Advance towards the " character
-							while (inputLine.charAt (lineCursor) != '"' || inputLine.charAt (lineCursor) != 39)
+							// Advance towards the " or ' character
+							while (inputLine.charAt (lineCursor) != 34 && inputLine.charAt (lineCursor) != 39) // this shit is bugged, the statement is TRUE but it decides to be FALSE
 							{
+
+//								System.out.println (inputLine.charAt (lineCursor));
 								
-								if (inputLine.charAt (lineCursor) == 39) // 39 is UNICODE for a single quote (')
-								{
-									
-									singleQuotes = true;
-									Log ("Detected some silly boy using single quotes, tisk tisk tisk.");
-									
-								}
-								
-								if (lineCursor < inputLine.length () - 1) // HERE BE BUGS
+//								if (lineCursor < inputLine.length () - 1)
 									lineCursor++;
 								
 							}
+							
+							if (inputLine.charAt (lineCursor) == 39) // 39 is UNICODE for a single quote (')
+							{
+								
+								// The link is using single quotes
+								singleQuotes = true;
+								Log ("Detected some silly boy using single quotes, tisk tisk tisk.");
+								
+							} 
+							else if (inputLine.charAt (lineCursor) == 34) // 34 is UNICODE for a double quote (") 
+							{
+								
+								// Else if condition just to be sure because I'm paranoid
+								singleQuotes = false;
+								
+							} 
 							
 							// Advance beyond the " or ' character
 							lineCursor++;
@@ -214,7 +224,7 @@ public class Crawler {
 								while (inputLine.charAt (lineCursor) != 39)
 									lineCursor++;
 							else
-								while (inputLine.charAt (lineCursor) != '"')
+								while (inputLine.charAt (lineCursor) != 34)
 									lineCursor++;
 							
 							String hrefLink = inputLine.substring (beginningOfHrefPosition, lineCursor);
