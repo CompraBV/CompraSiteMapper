@@ -85,6 +85,8 @@ public class Crawler {
 				 *  and manage the existing ones from a more accessible point in our code base like I've done with the `ILLEGAL_CONTAININGS` constant.
 				 *  Really all there is to it is creating another constant called something like `ILLEGAL_LITERALS` and then loop through it
 				 *  to see if any of it matches `collectionIt`
+				 *  
+				 *  It's really easy but I can't really be bothered to do it right now.
 				 */
 				if (collectionIt.equals("") || collectionIt.equals (" ") || collectionIt.equals ("#") || collectionIt.equals ("/"))
 				{
