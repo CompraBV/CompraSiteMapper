@@ -1,7 +1,9 @@
 package nl.compra.SiteMapGenerator;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import com.redfin.sitemapgenerator.WebSitemapGenerator;
 
@@ -14,19 +16,19 @@ public class Program {
 		
 		// Ge-Ge-Ge-Ge-ne-rate
 		System.out.println ("Please enter a target for the webcrawler: ");
-//		BufferedReader reader = new BufferedReader (new InputStreamReader (System.in));
+		BufferedReader reader = new BufferedReader (new InputStreamReader (System.in));
 		
 		try {
 		
-//			String requestedTarget = reader.readLine ();
-			Brain.SetTarget ("https://www.compra.nl");
+			String requestedTarget = reader.readLine ();
+			Brain.SetTarget (requestedTarget);
 			Brain.Execute ();
 
 			Brain.LogCollection ();
 			
 			WebSitemapGenerator wsg = new WebSitemapGenerator(Brain.GetTarget (), new File ("sitemaps"));
 			
-			for (String collected : Brain.getOverCollection())
+			for (String collected : Brain.GetOverCollection())
 				wsg.addUrl (collected);
 			
 			wsg.write();

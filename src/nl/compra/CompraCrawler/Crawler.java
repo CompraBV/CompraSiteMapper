@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,7 +17,7 @@ public class Crawler {
 	{
 		 ".css", ".js", ".jpg", ".jpeg", ".png", ".bmp", ".gif", ".svg", ".txt", ".ico", 
 		 ".zip", ".rar", ".tar.gz", ".tar", ".mp3", ".mp4", ".avi", ".wmv", ".sql", ".psd",
-		 "mailto:", "tel:", " "
+		 "mailto:", "tel:", "#"
 	 };
 	
 	private HttpURLConnection 	connection;
@@ -88,20 +87,20 @@ public class Crawler {
 				 *  
 				 *  It's really easy but I can't really be bothered to do it right now.
 				 */
-				if (collectionIt.equals("") || collectionIt.equals (" ") || collectionIt.equals ("#") || collectionIt.equals ("/"))
-				{
-					
-					collectionIterator.remove ();
-					continue collectionLoop;
-					
-				}
+//				if (collectionIt.equals("") || collectionIt.equals (" ") || collectionIt.equals ("#") || collectionIt.equals ("/"))
+//				{
+//					
+//					collectionIterator.remove ();
+//					continue collectionLoop;
+//					
+//				}
 				
 				// Check if the link contains some illegal wares
 				if (collectionIt.contains((illegalContaining)))
 				{
 					
 					Log ("Removing this entry: " + collectionIt);
-					collectionIterator.remove();
+					collectionIterator.remove(); // If so, confiscate the Mary Janes.
 					continue collectionLoop;
 					
 				}
@@ -247,7 +246,10 @@ public class Crawler {
 			reader.close ();
 						
 			// State success
-			Log ("I have crawled the requested page and have collected several URLs, I will now filter out the ones that aren't desirable.");
+			if ( ! collection.isEmpty ())
+				Log ("I have crawled the requested page and have collected several URLs, I will now filter out the ones that aren't desirable.");
+			else
+				Log ("I have crawled the requested page but it yielded no URLs whatsoever.");
 			
 			Filter ();
 			

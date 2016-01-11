@@ -1,18 +1,21 @@
 package nl.compra.CompraCrawler;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Brain {
 	
 	public static final String NAME = "Bob's evil twin";
 	
 	private static List<Crawler> 	crawlers 		= new ArrayList<Crawler> ();
-	private static List<String> 	overCollection 	= new ArrayList<String> ();;
+	private static List<String> 	overCollection 	= new CopyOnWriteArrayList<String> ();;
 	private static String 			target;
 
-	public static List<String> getOverCollection () 	{ return overCollection; }
-	public static String GetTarget ()					{ return target; }
+	public static List<String> 	GetOverCollection () 	{ return overCollection; }
+	public static String 		GetTarget ()			{ return target; }
 	
 	public static void SetTarget (String target) 		{ Brain.target = target; }
 	
@@ -21,7 +24,7 @@ public class Brain {
 		
 		Crawler crawler = new Crawler (target);
 		crawlers.add (crawler);
-		return crawler.Crawl ();
+		return (List<String>) crawler.Crawl ();
 		
 		
 	}
@@ -32,13 +35,15 @@ public class Brain {
 		// Explore first given page
 		ReceiveCollection (SpawnCrawler (target));
 		
-		if ( ! overCollection.isEmpty ())
+		List<String> initialCollection = overCollection;
+		
+		if ( ! initialCollection.isEmpty ())
 		{
 		
-			for (String collected : overCollection)
+			for (String collected : initialCollection)
 			{
 				
-				SpawnCrawler (collected);
+				ReceiveCollection (SpawnCrawler (collected));
 				
 			}
 		
@@ -70,11 +75,18 @@ public class Brain {
 		for (String collected : collection)
 		{
 			
-			if ( ! overCollection.contains (collected))
+			if ( ! overCollection.contains (target + collected))
 			{
 				
-				if ( ! collected.equals(target + "/"))
-					overCollection.add (target + "/" + collected);
+				// At some point this caused bugs with too many slashes, if shit hits the fan and you think it has to do with slashes..
+				// Uncomment dis and comment the other condition :D
+				
+//				if ( ! collected.equals(target + "/"))
+//					overCollection.add (target + "/" + collected);
+				
+				if ( ! collected.equals(target))
+					overCollection.add (target + collected);
+
 				
 			}
 			
