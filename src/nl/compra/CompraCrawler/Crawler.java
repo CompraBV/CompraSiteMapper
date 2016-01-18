@@ -76,6 +76,15 @@ public class Crawler {
 			
 			String collectionIt = collectionIterator.next ();
 			
+			// Check if root isn't fooling us
+			if (collectionIt.equals("/"))
+			{
+
+				collectionIterator.remove (); // Gotcha! :D
+				continue collectionLoop;
+				
+			}
+			
 			for (String illegalContaining : ILLEGAL_CONTAININGS)
 			{
 								
@@ -84,7 +93,7 @@ public class Crawler {
 				{
 					
 					Log ("Removing this entry: " + collectionIt);
-					collectionIterator.remove(); // If so, confiscate the Mary Janes.
+					collectionIterator.remove (); // If so, confiscate the Mary Janes.
 					continue collectionLoop;
 					
 				}

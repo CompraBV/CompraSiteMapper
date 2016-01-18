@@ -42,7 +42,10 @@ public class Brain {
 			for (String collected : initialCollection)
 			{
 				
-				ReceiveCollection (SpawnCrawler (collected));
+				if (collected.contains ("http"))
+					ReceiveCollection (SpawnCrawler (collected));
+				else
+					ReceiveCollection (SpawnCrawler (target + collected));
 				
 			}
 		
@@ -64,12 +67,14 @@ public class Brain {
 				
 				// TODO This is not done yet, read the loop, write the logic/magic**
 				// **not actual magic
-				SpawnCrawler (collected);
-				
+				if (collected.contains ("http"))
+					SpawnCrawler (collected);
+				else
+					SpawnCrawler (target + collected);
 				
 			}
 			
-			if (newFoundings < 0)
+			if (newFoundings <= 0)
 				break depthLoop;
 			
 			depth++;
