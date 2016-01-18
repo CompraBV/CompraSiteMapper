@@ -7,7 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class Brain {
 	
 	public static final String NAME = "Bob's evil twin";
-	public static final int MAX_DEPTH = 20;
+	public static final int MAX_DEPTH = 500;
 	
 	private static List<Crawler> 	crawlers 		= new ArrayList<Crawler> ();
 	private static List<String> 	overCollection 	= new CopyOnWriteArrayList<String> ();;
