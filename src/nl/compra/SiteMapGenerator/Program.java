@@ -11,17 +11,16 @@ import nl.compra.CompraCrawler.Brain;
 
 public class Program {
 
-	public Program ()
+	public Program (String[] args)
 	{
 		
-		// Ge-Ge-Ge-Ge-ne-rate
-		System.out.println ("Please enter a target for the webcrawler: ");
-		BufferedReader reader = new BufferedReader (new InputStreamReader (System.in));
-		
+		String target 	= args[0];
+		String location = args[1];
+
 		try {
 		
-			String requestedTarget = reader.readLine ();
-			Brain.SetTarget (requestedTarget);
+			Brain.SetTarget (target);
+
 			Brain.Execute ();
 
 			Brain.LogCollection ();
@@ -51,7 +50,7 @@ public class Program {
 	public static void main (String[] args)
 	{
 		
-		new Program ();
+		new Program (args);
 		
 	}
 	
