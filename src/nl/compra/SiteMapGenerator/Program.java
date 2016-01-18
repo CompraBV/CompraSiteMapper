@@ -14,6 +14,27 @@ public class Program {
 		
 		String target 	= args[0];
 		String location = args[1];
+		
+		// Establish folder
+		File locationFolder = new File (location);
+		if ( ! locationFolder.exists ())
+		{
+			
+			boolean folderCreationSuccess = new File (location).mkdirs ();
+			if ( ! folderCreationSuccess)
+			{
+				
+				System.out.println ("Could not create folder for sitemaps :( Here's the foldername: " + location);
+				
+			}
+			else
+			{
+				
+				System.out.println ("Folder wasn't found (" + location + ") so it has been created.");
+				
+			}
+			
+		}
 
 		try {
 		
@@ -23,7 +44,7 @@ public class Program {
 
 			Brain.LogCollection ();
 			
-			WebSitemapGenerator wsg = new WebSitemapGenerator(Brain.GetTarget (), new File ("sitemaps"));
+			WebSitemapGenerator wsg = new WebSitemapGenerator(Brain.GetTarget (), new File (location));
 			
 			for (String collected : Brain.GetOverCollection())
 				if (collected.contains ("http"))
@@ -41,7 +62,6 @@ public class Program {
 		}
 		
 		System.out.println ("CRAWLER HAS BEEN TERMINATED");
-		
 		
 	}
 	
