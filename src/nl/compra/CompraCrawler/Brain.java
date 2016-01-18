@@ -65,8 +65,6 @@ public class Brain {
 			for (String collected : overCollection)
 			{
 				
-				// TODO This is not done yet, read the loop, write the logic/magic**
-				// **not actual magic
 				if (collected.contains ("http"))
 					SpawnCrawler (collected);
 				else
