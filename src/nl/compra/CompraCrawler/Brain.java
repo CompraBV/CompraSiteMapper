@@ -7,6 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class Brain {
 	
 	public static final String NAME = "Bob's evil twin";
+	public static final int MAX_DEPTH = 20;
 	
 	private static List<Crawler> 	crawlers 		= new ArrayList<Crawler> ();
 	private static List<String> 	overCollection 	= new CopyOnWriteArrayList<String> ();;
@@ -30,7 +31,7 @@ public class Brain {
 	public static void Execute ()
 	{
 		
-		// Explore first given page
+		// Explore first given page and it's URLS
 		ReceiveCollection (SpawnCrawler (target));
 		
 		List<String> initialCollection = overCollection;
@@ -45,6 +46,34 @@ public class Brain {
 				
 			}
 		
+		}
+		
+		/*
+		 * Several loops should commence here where the system reiteratively goes over all the newly acquired URLs
+		 * so it may extend itself beyond the first and second depth.
+		 * However this process should be halted once it reaches a certain configurable depth.
+		 */
+		int depth = 0;
+		int newFoundings = 0;
+		
+		depthLoop: while (depth <= MAX_DEPTH)
+		{
+			
+			for (String collected : overCollection)
+			{
+				
+				// TODO This is not done yet, read the loop, write the logic/magic**
+				// **not actual magic
+				SpawnCrawler (collected);
+				
+				
+			}
+			
+			if (newFoundings < 0)
+				break depthLoop;
+			
+			depth++;
+						
 		}
 		
 	}
@@ -73,18 +102,31 @@ public class Brain {
 		for (String collected : collection)
 		{
 			
-			if ( ! overCollection.contains (target + collected))
+			// This doesn't exclude HTTPS because HTTPS does actually contain HTTP.
+			if (collected.contains("http"))
+			{
+			
+				if ( ! overCollection.contains (target + collected))
+				{
+					
+					if ( ! collected.equals(target))
+						overCollection.add (target + collected);
+	
+					
+				}
+				
+			} 
+			else
 			{
 				
-				// At some point this caused bugs with too many slashes, if shit hits the fan and you think it has to do with slashes..
-				// Uncomment dis and comment the other condition :D
-				
-//				if ( ! collected.equals(target + "/"))
-//					overCollection.add (target + "/" + collected);
-				
-				if ( ! collected.equals(target))
-					overCollection.add (target + collected);
-
+				if ( ! overCollection.contains (collected))
+				{
+					
+					if ( ! collected.equals(target))
+						overCollection.add (collected);
+	
+					
+				}
 				
 			}
 			
