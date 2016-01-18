@@ -29,7 +29,10 @@ public class Program {
 			WebSitemapGenerator wsg = new WebSitemapGenerator(Brain.GetTarget (), new File ("sitemaps"));
 			
 			for (String collected : Brain.GetOverCollection())
-				wsg.addUrl (collected);
+				if (collected.contains ("http"))
+					wsg.addUrl (collected);
+				else
+					wsg.addUrl (Brain.GetTarget () + collected);
 			
 			wsg.write();
 			
