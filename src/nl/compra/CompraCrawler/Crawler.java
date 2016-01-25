@@ -181,7 +181,7 @@ public class Crawler {
 							// lekker coden met een fles op me hoofd hue hue hue hue hue
 							
 							// Advance towards the " or ' character
-							while (inputLine.charAt (lineCursor) != 34 && inputLine.charAt (lineCursor) != 39) // this shit is bugged, the statement is TRUE but it decides to be FALSE
+							while (inputLine.charAt (lineCursor) != 34 && inputLine.charAt (lineCursor) != 39)
 							{
 
 //								System.out.println (inputLine.charAt (lineCursor));
