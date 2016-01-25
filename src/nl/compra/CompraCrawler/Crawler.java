@@ -244,7 +244,7 @@ public class Crawler {
 			if ( ! collection.isEmpty ())
 				Log ("I have crawled the requested page and have collected several URLs, I will now filter out the ones that aren't desirable.");
 			else
-				Log ("I have crawled the requested page but it yielded no URLs whatsoever.");
+				Log ("I have crawled the requested page but it yielded no URLs whatsoever. (Note: THIS DOESN'T MEAN I COULDN'T CONNECT. THERE JUST ARE NO URLS!!");
 			
 			Filter ();
 			
