@@ -140,10 +140,12 @@ public class Crawler {
 			
 			Log ("Crawling will now commence.");
 			
-			
+			int linesRead = 0;
 			
 			while ((inputLine = reader.readLine ()) != null)
 			{
+				
+				linesRead++;
 				
 				inputLine = inputLine.toLowerCase ();
 				
