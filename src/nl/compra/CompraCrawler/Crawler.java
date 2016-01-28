@@ -124,7 +124,7 @@ public class Crawler {
 		if (httpResponseCode != 200) // This means the page does not have the expected content.
 		{
 			
-			Log ("The response code from the requested target remained a HTTP Response code other than 200.");
+			Log ("The response code from the requested target remained a HTTP Response code other than 200. (Namely: " + httpResponseCode + ")");
 			return collection;
 			
 		}
