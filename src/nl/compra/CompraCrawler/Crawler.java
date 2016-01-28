@@ -221,8 +221,10 @@ public class Crawler {
 								while (inputLine.charAt (lineCursor) != 34)
 									lineCursor++;
 							
+							// Capture the URL
 							String hrefLink = inputLine.substring (beginningOfHrefPosition, lineCursor);
 						
+							// Add it to our collection
 							collection.add (hrefLink);
 							
 							// Create a safe distance
