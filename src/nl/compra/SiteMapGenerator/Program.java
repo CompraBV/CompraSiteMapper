@@ -71,6 +71,15 @@ public class Program {
 			
 		}
 		
+		System.out.println ("Malformed URL count: " + Brain.malformedURLCount);
+		if (Brain.malformedURLCount > 0)
+		{
+			
+			System.out.println ("!! @@ WARNING @@ !! MALFORMED URLS WERE DETECTED (" + Brain.malformedURLCount + ")."
+					+ "\nPLEASE SEE TO IT THAT THIS WEBSITE'S URLS ARE FIXED IMMEDIATELY TO INCLUDE THESE URLS. !! @@ WARNING @@ !!");
+			
+		}
+		
 		System.out.println ("CRAWLER HAS BEEN TERMINATED");
 		
 	}

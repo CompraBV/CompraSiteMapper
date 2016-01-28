@@ -142,7 +142,7 @@ public class Crawler {
 			
 			int linesRead = 0;
 			
-			while ((inputLine = reader.readLine ()) != null)
+			readerLoop: while ((inputLine = reader.readLine ()) != null)
 			{
 				
 				linesRead++;
@@ -212,6 +212,34 @@ public class Crawler {
 							// Advance beyond the " or ' character
 							lineCursor++;
 							
+							// Scout ahead to see if there are any double or single quotes down the line, just to be sure
+							if (singleQuotes)
+							{
+								
+								if (inputLine.substring (lineCursor, inputLine.length()).indexOf (39) == -1)
+								{
+									
+									System.out.println ("There are no singleqoutes to be found anywhere down the line, this URL is abandonned.");
+									Brain.malformedURLCount++;
+									continue readerLoop;
+									
+								}
+								
+							}
+							else
+							{
+							
+								if (inputLine.substring (lineCursor, inputLine.length()).indexOf (34) == -1)
+								{
+									
+									System.out.println ("There are no doubleqoutes to be found anywhere down the line, this URL is abandonned.");
+									Brain.malformedURLCount++;
+									continue readerLoop;
+									
+								}
+								
+							}
+								
 							int beginningOfHrefPosition = lineCursor;
 							
 							if (singleQuotes)
