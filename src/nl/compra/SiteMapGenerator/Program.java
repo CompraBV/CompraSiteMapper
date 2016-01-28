@@ -15,6 +15,16 @@ public class Program {
 		String target 	= args[0];
 		String location = args[1];
 		
+		// Check for trailing slash
+		if ( ! target.endsWith("/"))
+		{
+			
+			target = target.concat("/");
+			System.out.println ("Hold it right there, you forgot to use a trailing slash! :D"
+							  + "\nWorry not, I went ahead and added one myself for you. :)");
+			
+		}
+		
 		// Establish folder
 		File locationFolder = new File (location);
 		if ( ! locationFolder.exists ())
