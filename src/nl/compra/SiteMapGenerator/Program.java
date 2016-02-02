@@ -9,11 +9,8 @@ import nl.compra.CompraCrawler.Brain;
 
 public class Program {
 
-	public Program (String[] args)
+	public Program (String target, String location)
 	{
-		
-		String target 	= args[0];
-		String location = args[1];
 		
 		// Establish folder
 		File locationFolder = new File (location);
@@ -65,10 +62,11 @@ public class Program {
 		
 	}
 	
+	
 	public static void main (String[] args)
 	{
 		
-		new Program (args);
+		new Program (args[0], args[1]);
 		
 	}
 	
