@@ -9,6 +9,8 @@ public class Brain {
 	public static final String NAME = "Bob's evil twin";
 	public static final int MAX_DEPTH = 500;
 	
+	public static int malformedURLCount = 0;
+	
 	private static List<Crawler> 	crawlers 		= new ArrayList<Crawler> ();
 	private static List<String> 	overCollection 	= new CopyOnWriteArrayList<String> ();;
 	private static String 			target;

@@ -12,6 +12,16 @@ public class Program {
 	public Program (String target, String location)
 	{
 		
+		// Check for trailing slash
+		if ( ! target.endsWith("/"))
+		{
+			
+			target = target.concat("/");
+			System.out.println ("Hold it right there, you forgot to use a trailing slash! :D"
+							  + "\nWorry not, I went ahead and added one myself for you. :)");
+			
+		}
+		
 		// Establish folder
 		File locationFolder = new File (location);
 		if ( ! locationFolder.exists ())
@@ -55,6 +65,15 @@ public class Program {
 		
 			System.out.println ("Couldn't read requested URL by user.");
 			e.printStackTrace();
+			
+		}
+		
+		System.out.println ("Malformed URL count: " + Brain.malformedURLCount);
+		if (Brain.malformedURLCount > 0)
+		{
+			
+			System.out.println ("!! @@ WARNING @@ !! MALFORMED URLS WERE DETECTED (" + Brain.malformedURLCount + ")."
+					+ "\nPLEASE SEE TO IT THAT THIS WEBSITE'S URLS ARE FIXED IMMEDIATELY TO INCLUDE THESE URLS. !! @@ WARNING @@ !!");
 			
 		}
 		
