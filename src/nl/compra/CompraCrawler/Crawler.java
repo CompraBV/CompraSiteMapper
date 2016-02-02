@@ -140,7 +140,7 @@ public class Crawler {
 			
 			Log ("Crawling will now commence.");
 			
-			int linesRead = 0;
+			@SuppressWarnings ("unused") int linesRead = 0; // SuppressWarnings Unused since it's not really used outside of debugging.
 			
 			readerLoop: while ((inputLine = reader.readLine ()) != null)
 			{
